@@ -1,0 +1,52 @@
+{
+  "name": "didmobilewallet",
+  "license": "0BSD",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.26.0",
+    "@expo/metro-runtime": "~4.0.0",
+    "@react-native-async-storage/async-storage": "^2.1.0",
+    "@react-native-clipboard/clipboard": "^1.15.0",
+    "@react-native-picker/picker": "^2.10.2",
+    "@react-native/debugger-frontend": "^0.76.3",
+    "@react-navigation/bottom-tabs": "^7.0.13",
+    "@react-navigation/native": "^7.0.13",
+    "@react-navigation/stack": "^7.0.13",
+    "expo": "~52.0.11",
+    "expo-barcode-scanner": "^13.0.1",
+    "expo-camera": "~16.0.7",
+    "expo-permissions": "^14.4.0",
+    "expo-status-bar": "~2.0.0",
+    "noble-secp256k1": "^1.2.14",
+    "react": "18.3.1",
+    "react-native": "0.76.3",
+    "react-native-camera": "^4.2.1",
+    "react-native-clipboard": "^0.0.5",
+    "react-native-crypto": "^2.2.0",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-paper": "^5.12.5",
+    "react-native-permissions": "^5.2.1",
+    "react-native-qrcode-scanner": "^1.5.5",
+    "react-native-randombytes": "^3.6.1",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-responsive-screen": "^1.4.2",
+    "react-native-safe-area-context": "^4.14.0",
+    "react-native-screens": "~4.1.0",
+    "react-native-stack": "^1.0.0-alpha11",
+    "react-native-vector-icons": "^10.2.0",
+    "react-native-web": "~0.19.13",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@react-native-community/cli": "^16.0.0"
+  },
+  "private": true
+}
