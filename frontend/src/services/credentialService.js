@@ -1,10 +1,10 @@
-import { apiConfig } from './config';
+import { apiConfig } from './config.js';
 
 export const credentialService = {
   // Fetch all credentials (both on-chain and off-chain)
   async getAllCredentials() {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/credential`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/credential`, {
         headers: apiConfig.headers
       });
       const credentials = await response.json();
@@ -31,7 +31,7 @@ export const credentialService = {
   // Add a new credential (issue a credential to a user)
   async addCredential(credentialData) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/credential/issue`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/credential/issue`, {
         method: 'POST',
         headers: apiConfig.headers,
         body: JSON.stringify(credentialData)
@@ -45,7 +45,7 @@ export const credentialService = {
   // Fetch off-chain credential (via IPFS CID)
   async fetchOffChainCredential(cid) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/credential/off-chain/${cid}`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/credential/off-chain/${cid}`, {
         headers: apiConfig.headers
       });
       return await response.json();
@@ -57,7 +57,7 @@ export const credentialService = {
   // Fetch on-chain credential (via credentialId)
   async fetchOnChainCredential(credentialId) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/credential/on-chain/${credentialId}`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/credential/on-chain/${credentialId}`, {
         headers: apiConfig.headers
       });
       return await response.json();

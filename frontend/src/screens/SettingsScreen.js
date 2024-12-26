@@ -1,36 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Switch, Alert, Modal, Button, ScrollView, Clipboard } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text, StyleSheet, TouchableOpacity, Switch, Alert, ScrollView, Clipboard } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SettingsScreen = ({ navigation }) => {
+const SettingsScreen = ({ navigation, route }) => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [did, setDid] = useState("");
-  
+
+  // Check if the DID from params is a valid string or fallback to default
+  const [did, setDid] = useState("did:iden3:blockchain:network:unique-identifier");
+
+  // Fetch DID from AsyncStorage when the component mounts
   useEffect(() => {
-    const fetchDid = async () => {
+    const fetchDID = async () => {
       try {
-        const storedDid = await AsyncStorage.getItem("userDID");
+        const storedDid = await AsyncStorage.getItem('walletDID');
+        console.log("🚀 ~ fetchDID ~ storedDid:", storedDid);
+  
         if (storedDid) {
-          setDid(storedDid);
+          setDid(storedDid); // Directly set the plain string into state
         } else {
-          setDid("DID not found");
+          console.log('No DID found in AsyncStorage.');
         }
       } catch (error) {
-        console.error("Error fetching DID:", error);
-        setDid("Error fetching DID");
+        console.error('Error retrieving DID:', error);
       }
     };
-
-    fetchDid();
-  }, []);
   
+    fetchDID();
+  }, []);  
+
   const handleToggleNotifications = () => {
     setNotificationsEnabled((prev) => !prev);
   };
 
   const handleCopyDid = () => {
     Clipboard.setString(did);
-    Alert.alert("DID Copied", "Your DID has been copied to the clipboard.");
+    Alert.alert("Copied to Clipboard", "Wallet's DID has been copied.");
   };
 
   const handleLogout = () => {
@@ -59,8 +63,9 @@ const SettingsScreen = ({ navigation }) => {
       {/* Identity Section */}
       <Text style={styles.sectionHeader}>Identity</Text>
       <View style={styles.settingItem}>
-        <Text style={styles.settingText}>Wallets DID</Text>
+        <Text style={styles.settingText}>Wallet's DID</Text>
         <View style={styles.didContainer}>
+          {/* Ensure DID is rendered as a string */}
           <Text style={styles.didText} numberOfLines={1}>{did}</Text>
           <TouchableOpacity onPress={handleCopyDid}>
             <Text style={styles.copyText}>Copy</Text>
@@ -175,14 +180,14 @@ const styles = StyleSheet.create({
   didContainer: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,  // This ensures the DID text does not move out of the container
+    flex: 1,
   },
   didText: {
     fontSize: 16,
     color: "#333",
     marginRight: 10,
-    flex: 1,  // Makes sure the DID text takes available space
-    overflow: "hidden",  // Prevents overflow
+    flex: 1,
+    overflow: "hidden",
   },
   copyText: {
     fontSize: 16,

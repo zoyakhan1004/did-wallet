@@ -1,3 +1,4 @@
+// emailService.js
 const nodemailer = require('nodemailer');
 
 class EmailService {
@@ -12,7 +13,7 @@ class EmailService {
                     pass: process.env.EMAIL_PASSWORD
                 }
                 : undefined, // Exclude auth if not required
-        });        
+        });
     }
 
     async sendEmail(options) {

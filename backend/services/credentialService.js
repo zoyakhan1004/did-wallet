@@ -1,5 +1,6 @@
 const { ethers } = require('ethers');
-const ipfsClient = require('ipfs-http-client');
+const { create: ipfsClient } = require('ipfs-http-client');
+const axios = require('axios');
 
 // Setup Ethereum provider (e.g., Infura or local node)
 const provider = new ethers.JsonRpcProvider('YOUR_INFURA_OR_LOCAL_PROVIDER_URL');
@@ -19,7 +20,7 @@ const contractABI = [
 const contractAddress = '0xYourIssuerContractAddress';
 
 // Initialize IPFS client (if using IPFS for off-chain data)
-const ipfs = ipfsClient.create({ url: 'https://ipfs.infura.io:5001/api/v0' });
+const ipfs = ipfsClient({ url: 'https://ipfs.infura.io:5001/api/v0' });
 
 // Function to fetch on-chain credentials
 async function fetchOnChainCredentials(credentialId) {
@@ -35,8 +36,8 @@ async function fetchOnChainCredentials(credentialId) {
 // Function to fetch off-chain credentials (e.g., from IPFS)
 async function fetchOffChainCredentials(cid) {
   try {
-    const file = await ipfs.cat(cid);
-    const credential = JSON.parse(file.toString());
+    const response = await axios.get(`https://ipfs.infura.io:5001/api/v0/cat?arg=${cid}`);
+    const credential = JSON.parse(response.data.toString());
     return credential;
   } catch (error) {
     throw new Error('Error fetching off-chain credentials: ' + error.message);

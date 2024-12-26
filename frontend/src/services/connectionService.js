@@ -4,7 +4,7 @@ import { apiConfig } from './config';
 export const connectionService = {
   async getConnections() {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/connection`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/connection`, {
         headers: apiConfig.headers
       });
       return await response.json();
@@ -15,7 +15,7 @@ export const connectionService = {
 
   async createConnection(connectionData) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/connection`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/connection`, {
         method: 'POST',
         headers: apiConfig.headers,
         body: JSON.stringify(connectionData)

@@ -1,25 +1,26 @@
-const router = require('express').Router();
+const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const emailService = require('../services/emailService');
+const router = express.Router();
 
 // Send OTP
 router.post('/send-otp', async (req, res) => {
     try {
         const { email, firstName, lastName } = req.body;
-        console.log("🚀 ~ router.post ~ req.body:", req.body)
+        console.log("🚀 ~ router.post ~ req.body:", req.body);
         
         // Check if user already exists
         const existingUser = await User.findOne({ email });
-        console.log("🚀 ~ router.post ~ existingUser:", existingUser)
+        console.log("🚀 ~ router.post ~ existingUser:", existingUser);
         if (existingUser) {
             return res.status(400).json({ message: 'Email already registered' });
         }
 
         // Generate OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        console.log("🚀 ~ router.post ~ otp:", otp)
+        console.log("🚀 ~ router.post ~ otp:", otp);
         
         // Store OTP temporarily
         const user = new User({
@@ -53,7 +54,6 @@ router.post('/send-otp', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-    
 
 // Register
 router.post('/register', async (req, res) => {
@@ -109,32 +109,7 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-// router.post('/login', async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
 
-//         // Find the user by email
-//         const user = await User.findOne({ email });
-//         if (!user) {
-//             return res.status(400).json({ message: 'Invalid credentials' });
-//         }
-
-//         // Compare the provided password with the stored password
-//         const isMatch = password === user.password; // Direct comparison (not recommended for production)
-//         if (!isMatch) {
-//             return res.status(400).json({ message: 'Invalid credentials' });
-//         }
-
-//         // If passwords match, return success response
-//         res.json({
-//             message: 'Login successful',
-//             userId: user._id
-//         });
-//     } catch (error) {
-//         console.error('Login error:', error);
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// });
 // Password Reset Request
 router.post('/forgot-password', async (req, res) => {
     try {

@@ -1,7 +1,7 @@
-const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const sendEmail = require('../utils/emailService');
 const bcrypt = require('bcrypt');
+const sendEmail = require('../utils/emailService.js');
+const User = require('../models/User.js');
 
 // Generate verification code
 const generateVerificationCode = () => {
@@ -74,7 +74,6 @@ exports.register = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
-    console.log("🚀 ~ exports.register= ~ token:", token)
 
     res.status(201).json({
       success: true,
@@ -142,19 +141,18 @@ exports.login = async (req, res) => {
     }
 
     const user = await User.findOne({ email: email.toLowerCase() });
-    console.log("🚀 ~ exports.login= ~ user:", user)
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentialsssssss' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     if (!user.emailVerified) {
       return res.status(403).json({ message: 'Please verify your email first' });
     }
 
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) {
-    //   return res.status(401).json({ message: 'Invalid credentials' });
-    // }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
     // Update last login
     user.lastLogin = new Date();

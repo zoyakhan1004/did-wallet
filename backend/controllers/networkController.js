@@ -1,6 +1,59 @@
+const Connection = require('../models/Connection.js');
+const Credential = require('../models/Credential.js');
 const axios = require('axios');
 const { validationResult } = require('express-validator');
-const Network = require('../models/Network');
+const Network = require('../models/Network.js');
+
+exports.createConnection = async (req, res) => {
+    try {
+        const { connectedUserId } = req.body;
+        const newConnection = new Connection({
+            userId: req.userId,
+            connectedUserId,
+            status: 'pending'
+        });
+        await newConnection.save();
+        res.json(newConnection);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.getConnections = async (req, res) => {
+    try {
+        const connections = await Connection.find({
+            $or: [{ userId: req.userId }, { connectedUserId: req.userId }]
+        }).populate('userId connectedUserId', 'firstName lastName email');
+        res.json(connections);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.createCredential = async (req, res) => {
+    try {
+        const { name, value, type } = req.body;
+        const newCredential = new Credential({
+            userId: req.userId,
+            name,
+            value,
+            type
+        });
+        await newCredential.save();
+        res.json(newCredential);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.getCredentials = async (req, res) => {
+    try {
+        const credentials = await Credential.find({ userId: req.userId });
+        res.json(credentials);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 
 exports.addNetwork = async (req, res) => {
     const errors = validationResult(req);
@@ -31,14 +84,11 @@ exports.addNetwork = async (req, res) => {
             });
 
             if (!response.data || !response.data.result) {
-                // console.log("🚀 ~ exports.addNetwork= ~ response.data.result:", response.data.result)
-                // console.log("🚀 ~ exports.addNetwork= ~ response.data:", response.data)
                 return res.status(400).json({ message: 'Invalid RPC URL: No valid response from endpoint' });
             }
 
             // Optional: Confirm chain ID matches the response
             const returnedChainId = parseInt(response.data.result, 16);
-            console.log("🚀 ~ exports.addNetwork= ~ returnedChainId:", returnedChainId)
             if (returnedChainId !== chainId) {
                 return res.status(400).json({ message: 'Chain ID does not match the RPC endpoint' });
             }
@@ -55,26 +105,21 @@ exports.addNetwork = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-console.log("🚀 ~ exports.addNetwork= ~ addNetwork:", addNetwork)
 
-
-// Delete a network
 exports.deleteNetwork = async (req, res) => {
     try {
-      const { id } = req.params;  // This is the network's unique '_id'
-      const deletedNetwork = await Network.findByIdAndDelete(id);
-      if (!deletedNetwork) {
-        return res.status(404).json({ message: 'Network not found' });
-      }
-      res.status(200).json({ message: 'Network deleted successfully' });
+        const { id } = req.params;  // This is the network's unique '_id'
+        const deletedNetwork = await Network.findByIdAndDelete(id);
+        if (!deletedNetwork) {
+            return res.status(404).json({ message: 'Network not found' });
+        }
+        res.status(200).json({ message: 'Network deleted successfully' });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
-  };
-  
+};
 
-// Retrieve available networks
 exports.getNetworks = async (req, res) => {
     try {
         const networks = await Network.find();

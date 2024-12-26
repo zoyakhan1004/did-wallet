@@ -12,35 +12,35 @@ const AddCustomNetworkScreen = () => {
 
   const handleAddNetwork = async () => {
     const networkData = {
-        chainId,
-        blockchain,
-        network,
-        rpcUrl,
-        stateContractAddress,
-        networkFlag,
+      chainId,
+      blockchain,
+      network,
+      rpcUrl,
+      stateContractAddress,
+      networkFlag,
     };
     console.log("🚀 ~ handleAddNetwork ~ networkData:", networkData)
 
     try {
-        const response = await fetch('https://7731-110-227-204-245.ngrok-free.app/api/network/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(networkData),
-        });
-        console.log("🚀 ~ handleAddNetwork ~ response:", response)
+      const response = await fetch('https://8e61-110-227-204-245.ngrok-free.app/api/network/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(networkData),
+      });
+      console.log("🚀 ~ handleAddNetwork ~ response:", response)
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-            Alert.alert("Success", "Network added successfully!");
-        } else {
-            Alert.alert("Error", data.message || "Failed to add network");
-        }
+      if (response.ok) {
+        Alert.alert("Success", "Network added successfully!");
+      } else {
+        Alert.alert("Error", data.message || "Failed to add network");
+      }
     } catch (error) {
-        console.error('Error adding network:', error);
-        Alert.alert("Error", "Failed to add network");
+      console.error('Error adding network:', error);
+      Alert.alert("Error", "Failed to add network");
     }
   };
   console.log("🚀 ~ handleAddNetwork ~ handleAddNetwork:", handleAddNetwork)

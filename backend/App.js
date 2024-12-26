@@ -1,21 +1,22 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+// App.js
+const React = require("react");
+const { NavigationContainer } = require("@react-navigation/native");
+const { createStackNavigator } = require("@react-navigation/stack");
+const { createBottomTabNavigator } = require("@react-navigation/bottom-tabs");
+const { Ionicons } = require("@expo/vector-icons");
+const { StyleSheet } = require("react-native");
 
 // Screens
-import WelcomeScreen from "./src/screens/WelcomeScreen";
-import LoginScreen from "./src/screens/LoginScreen";
-import RegisterScreen from "./src/screens/RegisterScreen";
-import AccountCreatedScreen from "./src/screens/AccountCreatedScreen";
-import VerificationScreen from "./src/screens/VerificationScreen";
-import ConnectionsScreen from "./src/screens/ConnectionsScreen";
-import CredentialsScreen from "./src/screens/CredentialsScreen";
-import SettingsScreen from "./src/screens/SettingsScreen";
-import NotificationScreen from "./src/screens/NotificationScreen";
-import AddCustomNetworkScreen from "./src/screens/AddCustomNetworkScreen";
+const WelcomeScreen = require("./src/screens/WelcomeScreen").default;
+const LoginScreen = require("./src/screens/LoginScreen").default;
+const RegisterScreen = require("./src/screens/RegisterScreen").default;
+const AccountCreatedScreen = require("./src/screens/AccountCreatedScreen").default;
+const VerificationScreen = require("./src/screens/VerificationScreen").default;
+const ConnectionsScreen = require("./src/screens/ConnectionsScreen").default;
+const CredentialsScreen = require("./src/screens/CredentialsScreen").default;
+const SettingsScreen = require("./src/screens/SettingsScreen").default;
+const NotificationScreen = require("./src/screens/NotificationScreen").default;
+const AddCustomNetworkScreen = require("./src/screens/AddCustomNetworkScreen").default;
 
 // Stack and Tab Navigators
 const Stack = createStackNavigator();
@@ -69,7 +70,7 @@ const HomeTabs = () => (
 );
 
 // Main App Navigation
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
@@ -99,7 +100,8 @@ export default function App() {
           component={VerificationScreen}
           options={{ title: "Verification" }}
         />
-
+        {/* <Stack.Screen name="ProofScreen" component={ProofScreen} />
+        <Stack.Screen name="CredentialDetailsScreen" component={CredentialDetailsScreen} /> */}
         {/* Home Tabs */}
         <Stack.Screen
           name="Home"
@@ -109,7 +111,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -119,3 +121,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+module.exports = App;

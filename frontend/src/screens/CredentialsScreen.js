@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
-import { credentialService } from "../services/credentialService"; // Assuming the service is in the services folder
+import { credentialService } from "../services/credentialService.js"; // Assuming the service is in the services folder
 
 const CredentialsScreen = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState("Active");

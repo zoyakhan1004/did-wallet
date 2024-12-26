@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
-import { createDID } from "../services/didService"; // Import your DID service
-
 const RegisterScreen = ({ navigation }) => {
   const [form, setForm] = useState({
     firstName: "",
@@ -26,7 +24,7 @@ const RegisterScreen = ({ navigation }) => {
       }
 
       const response = await fetch(
-        `https://917b-110-227-204-245.ngrok-free.app/api/authMiddleware/send-otp`,
+        `https://8e61-110-227-204-245.ngrok-free.app/api/authMiddleware/send-otp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -70,7 +68,7 @@ const RegisterScreen = ({ navigation }) => {
 
       // Registration API call
       const response = await fetch(
-        `https://917b-110-227-204-245.ngrok-free.app/api/authMiddleware/register`,
+        `https://8e61-110-227-204-245.ngrok-free.app/api/authMiddleware/register`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,13 +85,8 @@ const RegisterScreen = ({ navigation }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // DID Creation
-        const didResult = await createDID();
-        console.log("DID Created:", didResult.did);
-        console.log("DID Document:", didResult.didDocument);
-
-        Alert.alert("Success", "Account and DID successfully created!");
-        navigation.navigate("AccountCreated", { did: didResult.did });
+        Alert.alert("Success", "Account successfully created!");
+        navigation.navigate("AccountCreated");
       } else {
         Alert.alert("Error", data.message || "Registration failed");
       }
@@ -104,6 +97,7 @@ const RegisterScreen = ({ navigation }) => {
       setLoading(false);
     }
   };
+
 
   return (
     <View style={styles.container}>

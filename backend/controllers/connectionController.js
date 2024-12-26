@@ -1,6 +1,6 @@
-const Connection = require('../models/Connection');
+const Connection = require('../models/Connection.js');
 
-const createConnection = async (req, res) => {
+exports.createConnection = async (req, res) => {
     try {
         const { connectedUserId } = req.body;
         const newConnection = new Connection({
@@ -15,7 +15,7 @@ const createConnection = async (req, res) => {
     }
 };
 
-const getConnections = async (req, res) => {
+exports.getConnections = async (req, res) => {
     try {
         const connections = await Connection.find({
             $or: [{ userId: req.userId }, { connectedUserId: req.userId }]
@@ -24,9 +24,4 @@ const getConnections = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
-};
-
-module.exports = {
-    createConnection,
-    getConnections
 };

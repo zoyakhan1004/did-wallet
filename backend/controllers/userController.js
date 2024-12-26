@@ -1,8 +1,8 @@
-const User = require('../models/User');
+const User = require('../models/User.js');
 const bcrypt = require('bcryptjs');
-const { generateToken } = require('../utils/jwtHelper');
+const { generateToken } = require('../utils/jwtHelper.js');
 
-const updateUser = async (req, res) => {
+exports.updateUser = async (req, res) => {
     try {
         const { firstName, lastName, email } = req.body;
         const user = await User.findByIdAndUpdate(
@@ -16,7 +16,7 @@ const updateUser = async (req, res) => {
     }
 };
 
-const getUserProfile = async (req, res) => {
+exports.getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.userId).select('-password');
         if (!user) {
@@ -26,9 +26,4 @@ const getUserProfile = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
-};
-
-module.exports = {
-    updateUser,
-    getUserProfile
 };

@@ -1,28 +1,10 @@
 const mongoose = require('mongoose');
 
 const credentialSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    type: {
-        type: String,
-        required: true
-    },
-    details: {
-        type: Object,
-        required: true
-    },
-    issuerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    status: {
-        type: String,
-        enum: ['active', 'revoked'],
-        default: 'active'
-    }
+  did: { type: String, required: true, unique: true },
+  credentialData: { type: Object, required: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Credential', credentialSchema);
+const Credential = mongoose.model('Credential', credentialSchema);
+
+module.exports = Credential;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import InputField from "../components/InputField";
-import Button from "../components/Button";
-import { authMiddlewareService } from "../services/authMiddlewareService";
+import InputField from "../components/InputField.js";
+import Button from "../components/Button.js";
+import { authMiddlewareService } from "../services/authMiddlewareService.js";
 
 const LoginScreen = ({ navigation }) => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -36,28 +36,6 @@ const LoginScreen = ({ navigation }) => {
           ['userToken', response.token],
           ['userId', response.userId]
         ]);
-  
-        // Fetch DID from the backend after successful login
-        // const didResponse = await fetch('https://917b-110-227-204-245.ngrok-free.app/api/getDid', {
-        //   method: 'GET',
-        //   headers: {
-        //     Authorization: `Bearer ${response.token}`, // Assuming token is used for authentication
-        //   },
-        // });
-  
-        // if (!didResponse.ok) {
-        //   throw new Error("Failed to fetch DID");
-        // }
-  
-        // const didData = await didResponse.json();
-        // console.log("🚀 ~ handleLogin ~ didData:", didData);
-  
-        // // Store DID in AsyncStorage
-        // if (didData && didData.did) {
-        //   await AsyncStorage.setItem('userDID', didData.did);
-        // } else {
-        //   console.warn("DID not found in response");
-        // }
   
         Alert.alert(
           "Success",

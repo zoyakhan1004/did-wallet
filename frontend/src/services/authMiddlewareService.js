@@ -1,10 +1,10 @@
 // src/services/authMiddlewareService.js
-import { apiConfig } from './config';
+import { apiConfig } from './config.js';
 
 export const authMiddlewareService = {
   async login(credentials) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/api/authMiddleware/login`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/api/authMiddleware/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export const authMiddlewareService = {
 
   async register(userData) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/authMiddleware/register`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/authMiddleware/register`, {
         method: 'POST',
         headers: apiConfig.headers,
         body: JSON.stringify(userData)
@@ -33,7 +33,7 @@ export const authMiddlewareService = {
 
   async verifyOTP(data) {
     try {
-      const response = await fetch(`https://917b-110-227-204-245.ngrok-free.app/authMiddleware/verify`, {
+      const response = await fetch(`https://8e61-110-227-204-245.ngrok-free.app/authMiddleware/verify`, {
         method: 'POST',
         headers: apiConfig.headers,
         body: JSON.stringify(data)

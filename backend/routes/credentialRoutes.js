@@ -1,10 +1,25 @@
-const router = require('express').Router();
+const express = require('express');
 const Credential = require('../models/Credential');
 const Notification = require('../models/Notification');
 const authMiddleware = require('../middleware/authMiddleware');
-const { fetchOnChainCredentials, fetchOffChainCredentials } = require('../services/didService'); // Import the service methods
+
+// Helper function to fetch off-chain credentials (IPFS)
+async function fetchOffChainCredentials(cid) {
+    // Fetch off-chain credentials from IPFS
+    // Add actual implementation for fetching from IPFS
+    return { cid };
+}
+
+// Helper function to fetch on-chain credentials (via contract address)
+async function fetchOnChainCredentials(credentialId) {
+    // Fetch on-chain credentials using smart contract logic
+    // Add actual implementation for fetching from blockchain
+    return { credentialId };
+}
 
 // Issue credential (store off-chain details and create a notification)
+const router = express.Router();
+
 router.post('/issue', authMiddleware, async (req, res) => {
     try {
         const { targetUserId, type, details } = req.body;
@@ -104,5 +119,15 @@ router.get('/off-chain/:cid', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Error fetching off-chain credential' });
     }
 });
+
+// router.get('/fetch/:did', async (req, res) => {
+//     const { did } = req.params;
+//     try {
+//         const credentials = await fetchCredentials(did);
+//         res.json(credentials);
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// });
 
 module.exports = router;

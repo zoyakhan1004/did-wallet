@@ -1,7 +1,9 @@
-const router = require('express').Router();
+const express = require('express');
 const Connection = require('../models/Connection');
 const Notification = require('../models/Notification');
 const authMiddleware = require('../middleware/authMiddleware');
+
+const router = express.Router();
 
 // Send connection request
 router.post('/request', authMiddleware, async (req, res) => {

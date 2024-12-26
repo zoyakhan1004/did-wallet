@@ -1,4 +1,3 @@
-// models/Network.js
 const mongoose = require('mongoose');
 
 const networkSchema = new mongoose.Schema({
@@ -34,4 +33,3 @@ const networkSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('Network', networkSchema);
-

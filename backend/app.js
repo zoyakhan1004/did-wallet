@@ -1,15 +1,18 @@
+// app.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
-const emailService = require('../backend/services/emailService'); // Add email service
-const didRoutes = require('./routes/didRoutes');
-require('dotenv').config();
+const dotenv = require('dotenv');
+const emailService = require('./services/emailService'); // Add email service
+
+dotenv.config();
 
 const app = express();
 app.set('trust proxy', 1);
+
 // Security Middleware
 app.use(helmet());
 app.use(mongoSanitize());
@@ -17,15 +20,15 @@ app.use(mongoSanitize());
 // Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 ,// limit each IP to 100 requests per windowMs
+    max: 100, // limit each IP to 100 requests per windowMs
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-//app.use('/api/', limiter);
+// app.use('/api/', limiter);
 
 // CORS configuration
 app.use(cors({
-    origin:  'http://192.168.1.61:8081',
+    origin: 'http://192.168.1.61:8081',
     credentials: true
 }));
 
@@ -60,14 +63,21 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 // Routes
-app.use('/api/authMiddleware', require('./routes/authRoutes'));
-app.use('/api/user', require('./routes/userRoutes'));
-app.use('/api/network', require('./routes/networkRoutes'));
-app.use('/api/credential', require('./routes/credentialRoutes'));
-app.use('/api/connection', require('./routes/connectionRoutes'));
-app.use('/api/notifications', require('./routes/notificationRoutes'));
-app.use('/api/email', require('./routes/authRoutes')); // Add email routes if needed
-app.use('/api/did', didRoutes);
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const networkRoutes = require('./routes/networkRoutes');
+const credentialRoutes = require('./routes/credentialRoutes');
+const connectionRoutes = require('./routes/connectionRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+
+app.use('/api/authMiddleware', authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/network', networkRoutes);
+app.use('/api/credential', credentialRoutes);
+app.use('/api/connection', connectionRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/email', authRoutes); // Add email routes if needed
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).json({
@@ -77,9 +87,6 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT;
-// const server = app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// });
 
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log('Server running on http://0.0.0.0:3000');

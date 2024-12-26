@@ -22,7 +22,4 @@ const validateCredential = (req, res, next) => {
     next();
 };
 
-module.exports = {
-    validateUser,
-    validateCredential
-};
+module.exports = { validateUser, validateCredential };
